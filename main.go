@@ -42,8 +42,14 @@ func main() {
 	productRepo := repositories.NewProductRepository(db)
 	productService := services.NewProductService(productRepo)
 	productHandler := handlers.NewProductHandler(productService)
-	http.HandleFunc("/api/produk", productHandler.HandleProducts)
-	http.HandleFunc("/api/produk/", productHandler.HandleProductByID)
+	http.HandleFunc("/api/product", productHandler.HandleProducts)
+	http.HandleFunc("/api/product/", productHandler.HandleProductByID)
+
+	categoryRepo := repositories.NewCategoryRepository(db)
+	categoryService := services.NewCategoryService(categoryRepo)
+	categoryHandler := handlers.NewCategoryHandler(categoryService)
+	http.HandleFunc("/api/category", categoryHandler.HandleCategories)
+	http.HandleFunc("/api/category/", categoryHandler.HandleCategoryByID)
 
 	addr := "0.0.0.0:" + config.Port
 	fmt.Println("Server running di", addr)
