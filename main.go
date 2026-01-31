@@ -39,15 +39,15 @@ func main() {
 	}
 	defer db.Close()
 
-	addr := "0.0.0.0:" + config.Port
-	fmt.Println("Server running di", addr)
-	if err := http.ListenAndServe(addr, nil); err != nil {
-		fmt.Println("gagal running server", err)
-	}
-
 	productRepo := repositories.NewProductRepository(db)
 	productService := services.NewProductService(productRepo)
 	productHandler := handlers.NewProductHandler(productService)
 	http.HandleFunc("/api/produk", productHandler.HandleProducts)
 	http.HandleFunc("/api/produk/", productHandler.HandleProductByID)
+
+	addr := "0.0.0.0:" + config.Port
+	fmt.Println("Server running di", addr)
+	if err := http.ListenAndServe(addr, nil); err != nil {
+		fmt.Println("gagal running server", err)
+	}
 }
